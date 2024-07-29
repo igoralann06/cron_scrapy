@@ -40,7 +40,7 @@ class KleinanzeigenSpider(CrawlSpider):
     def start_requests(self):
         urlTemplate = 'https://www.kleinanzeigen.de/s-buecher-zeitschriften/sortierung:preis/preis:0:5/#bookTitle#/k0c76'
         start_urls = []
-        with open("awin_feed_clean.csv", "r", encoding="utf8") as csvfile:
+        with open("awin_feed_kle_clean.csv", "r", encoding="utf8") as csvfile:
             lines = csv.reader(csvfile, delimiter=',')
             for line in lines:
                 bookTitle = urllib.parse.quote(line[1])

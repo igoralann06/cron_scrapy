@@ -3,6 +3,7 @@ import requests
 import csv
 import time
 from datetime import datetime
+import sqlite3
 
 isbnList = []
 vintedSearchURL = 'https://www.vinted.de/api/v2/catalog/items?page=1&per_page=96&catalog_ids=2312&status_ids=3,2,1,6&search_text='
@@ -48,13 +49,19 @@ def search(isbn, price, rburl, getCookies=False, filename=''):
                 # foundList.append(element['url'] + ',' + rburl + ',' +
                 #                  element['price'] + ',' + str(price) + ',' +
                 #                  isbn + ',' + str(dif) + ',' + date_time)
-                with open(filename, "a") as file:
-                    file.write(element['url'] + ',' + rburl + ',' +
-                                  element['price'] + ',' + str(price) + ',' +
-                                  isbn + ',' + str(dif) + ',' + date_time + '\n')
-                    
+                con = sqlite3.connect("awin.db")
+                cur = con.cursor()
+                res = cur.execute("SELECT * FROM records WHERE url='" + element['url'] + "'")
+                if res.fetchone() is None:
+                    cur.execute("INSERT INTO records VALUES ('" + element['url'] + "')")
+                    con.commit() 
+                    with open(filename, "a") as file:
+                        file.write(element['url'] + ',' + rburl + ',' +
+                                    element['price'] + ',' + str(price) + ',' +
+                                    isbn + ',' + str(dif) + ',' + date_time + '\n')          
                 
-    except:
+    except Exception as e:
+        print(e)
         print("Exception - Sleeping 30 sec")
         time.sleep(30)
         search(isbn, price, rburl, True, filename)
