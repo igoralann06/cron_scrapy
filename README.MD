@@ -10,7 +10,8 @@ $ python -m venv venv/source
 $ source /venv/source/bin/activate
 
 # Threading scraping scripts (cron)
-$ python serve.py
+$ python serve_klei.py
+$ python serve_vinted.py
 
 - run the rebuy script
 - run the kleinanzeigen.py script

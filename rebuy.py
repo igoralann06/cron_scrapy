@@ -2,9 +2,17 @@ import requests
 import gzip
 import shutil
 import csv
+import os
 
 def rebuy():
     minValue = 5.0
+    
+    if os.path.isfile("./awin_feed.gz"):
+        os.remove("./awin_feed.gz")
+    if os.path.isfile("./awin_feed.csv"):
+        os.remove("./awin_feed.csv")
+    if os.path.isfile("./awin_feed_clean.csv"):
+        os.remove("./awin_feed_clean.csv")
 
     feedURL = 'https://productdata.awin.com/datafeed/download/apikey/f409ea591dbab5db570543a201b9f2f2/language/de/cid/230,609,538/fid/77537,77663/rid/0/hasEnhancedFeeds/0/columns/aw_deep_link,product_name,search_price,ean/format/csv/delimiter/%2C/compression/gzip/adultcontent/1/'
     print("Getting URL")
